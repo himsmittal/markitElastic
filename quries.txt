@@ -1,0 +1,82 @@
+GET /my_index/my_type/_search
+{
+    "query": {
+        "match": {
+            "title": "BROWN DOG!"
+        }
+    }
+}
+
+
+GET /my_index/my_type/_search
+{
+  "query": {
+    "match": {
+      "title": {
+        "query":                "quick brown dog",
+        "minimum_should_match": "75%"
+      }
+    }
+  }
+}
+
+Bool condition
+GET /my_index/my_type/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        { "match": { "title": "brown" }},
+        { "match": { "title": "fox"   }},
+        { "match": { "title": "dog"   }}
+      ],
+      "minimum_should_match": 2 
+    }
+  }
+}
+
+The index_analyzer defined in the field mapping, else
+The search_analyzer defined in the field mapping
+
+The first is to create an index with one primary shard, as we did in the section introducing the match query. If you have only one shard, then the local IDF is the global IDF.
+
+These analyzers typically perform four roles:
+
+Tokenize text into individual words:
+
+The quick brown foxes ? [The, quick, brown, foxes]
+
+Lowercase tokens:
+
+The ? the
+
+Remove common stopwords:
+
+[The, quick, brown, foxes] ? [quick, brown, foxes]
+
+Stem tokens to their root form:
+
+foxes ? fox
+
+The english analyzer removes the possessive 's:
+
+John's ? john
+
+{
+    "type":      "custom",
+    "tokenizer": "standard",
+    "filter":  [ "lowercase", "stop" ]
+}
+
+GET /my_index/my_type/_search
+{
+  "query": {
+    "match": {
+      "text": {
+        "query":     "SURPRIZE ME!",
+        "fuzziness": "AUTO",
+        "operator":  "and"
+      }
+    }
+  }
+}

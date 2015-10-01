@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
+                       xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+  <ShortName>markit</ShortName>
+  <Description>Searich engine full control</Description>
+  <InputEncoding>UTF-8</InputEncoding>
+<Image height="16" width="16" type="image/x-icon">http://10.134.14.133:8082/favicon/favicon.ico</Image>
+  <Url type="text/html" method="GET" template="http://10.134.14.133:8082/search?q={searchTerms}">
+  </Url>
+  <Url type="application/x-suggestions+json" template="suggestionURL"/>
+  <moz:SearchForm>http://www.world-connect-commodities.ro:8775/Search/default.aspx</moz:SearchForm>
+</OpenSearchDescription>

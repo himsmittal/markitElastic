@@ -1,0 +1,29 @@
+PUT  /urlmetadata
+{
+"settings" : {
+        "index" : {
+            "number_of_shards" : 1,
+             "analysis": {
+                    "analyzer": {
+                        "title_analyzer": {
+                            "type": "custom",
+                            "tokenizer": "standard",
+                            "filter": ["standard","lowercase","asciifolding","stop","my_stemmer","unique"]
+                        }
+                    },
+                    "filter": {
+						"my_phonetic": { 
+								"type":    "phonetic",
+								"encoder": "double_metaphone"
+							},
+						"my_stemmer" : {
+								"type" : "stemmer",
+								"name" : "english"
+							}
+					}
+                }
+        }
+    }
+    
+}
+

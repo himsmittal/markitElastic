@@ -1,0 +1,41 @@
+PUT /urlmetadata/_mapping/urlmetadata
+{
+         "urlmetadata": {
+                  "properties": {
+               "click": {
+                  "type": "long"
+               },
+               "count": {
+                  "type": "long"
+               },
+               "keywords": {
+                  "type": "string"
+               },
+               "link": {
+                  "type": "string",
+                  "copy_to": [
+                     "link_notanalyised"
+                  ]
+               },
+               "link_notanalyised": {
+                  "type": "string",
+                  "index": "not_analyzed"
+               },
+               "title": {
+                  "type": "string",
+                  "copy_to": [
+                     "title_notanalyised",
+                     "title_afteranalyizers"
+                  ]
+               },
+               "title_afteranalyizers": {
+                  "type": "string",
+                  "analyzer": "title_analyzer"
+               },
+               "title_notanalyised": {
+                  "type": "string",
+                  "index": "not_analyzed"
+               }
+            }
+         }
+}

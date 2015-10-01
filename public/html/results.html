@@ -1,0 +1,303 @@
+
+       <!-- modal for add link popup-->
+<div id="addLinkModal" class="modal fade" tabindex="-1" role="dialog" ng-hide="selectedPage">
+		<div class="modal-dialog modal-lg">
+           
+			<div class="modal-content">
+                
+                <form name="addForm" onsubmit="addLink()">
+				    <div class="modal-body col-sm-12">
+					   <input class="input form-control col-sm-11" type="text" ng-model="newLink"  name="link"  placeholder="Link" required/>
+                    </div>
+                    <div class="modal-body col-sm-12">
+                        <input class="input form-control col-sm-11" type="text" ng-model="newTitle" name="keywords" placeholder="Keywords" required/>
+        
+					   <br/>   
+                    </div>
+			
+				    <div class="modal-footer">
+					   <a class="btn btn-primary" data-dismiss="modal" href="javascript:void(0)" ng-click="addLink()" type="submit"   ng-disabled="addForm.$invalid">Add</a> 
+					   <a class="btn btn-danger" data-dismiss="modal" href="javascript:void(0)" ng-click="cancel()">Cancel</a> 	
+				    </div>
+                </form>
+			</div>
+			
+		</div>
+	</div>
+
+<div id="feedBackModal" class="modal fade" tabindex="-1" role="dialog"  ng-hide="selectedPage">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">We'd Love to Hear From You</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal col-sm-12">
+          <div class="form-group"><label>Name</label><input class="form-control required" ng-model="name"  data-placement="top" type="text"></div>
+             <div class="form-group"><label>E-Mail</label><input class="form-control email" data-placement="top" ng-model="email" type="text"></div>
+          <div class="form-group"><label>Feedback</label><textarea class="form-control" ng-model="suggestions"  data-placement="top"></textarea></div>
+         
+            <div class="form-group"><label>Rating:</label>  <rating ng-model="rate" max="max"  on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+    <span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" ng-show="overStar && !isReadonly">{{percent}}%</span></div>
+          
+         
+            
+        </form>
+      </div>
+      <div class="modal-footer"><button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="sendFeedBack()" type="submit">Send</button>
+        <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="header"><div  ng-show="showHeader" style="padding:10px" class="text-center"><button onclick="startSiteTour()" class="btn btn-large btn-primary pull-right">Take a tour <span class="glyphicon glyphicon-play"></span></button></div></div>
+
+    <div class="container-full" style="height:90vh;padding-top:50px" ng-show="showHeader">
+        
+        <div class="container" style="text-align:center;padding-top:50px">
+            <div ng-controller="statsCtrl">
+                <h1 id="markItBrand">markIt  <i class="glyphicon glyphicon-tags"></i></h1>
+                <p class="tagline">Cloud Based Search App v1.0 Beta 
+                <button type="button" class="btn btn-default btn-sm" ng-click="showStats()" id="statsButton">
+                    <span class="glyphicon glyphicon-stats"></span>
+                </button>
+                
+                </p>
+            </div>
+            
+      
+    <script type="text/ng-template" id="customTemplate.html">
+        <a>
+            <span  class="bar" bind-html-unsafe="match.label | typeaheadHighlight:query"></span><br/>
+            Searched: <span class="badge" bind-html-unsafe="match.model.count-1 | typeaheadHighlight:query"></span>
+            | Clicked: <span class="badge" bind-html-unsafe="match.model.click ||0  | typeaheadHighlight:query"></span>    
+        </a>
+    </script>
+      
+            <!-- form for home page search -->
+            <form name="myForm">
+                <div class="bar input-group"  style="width:650px;text-align:center;margin:0 auto; padding-top:20px;">
+                    <input type="text" id="searchInput" name="keywords" class="form-control input-lg" placeholder="What's on your mind ?" ng-model="searchKeywords" typeahead="tagsData.title for tagsData in tagsData | filter:{title:$viewValue} | limitTo:5" typeahead-focus-first="false" typeahead-template-url="customTemplate.html" required />
+                    <span class="input-group-btn" style="padding:0px 10px;" > 
+                        <button class="btn btn-lg btn-primary" ng-disabled="myForm.$invalid" ng-click="getResults()" type="submit" id="searchButton">Search</button></span>
+                 
+             
+                <span class="input-group-btn"> <button class="btn btn-lg btn-danger" id="addlinkButton" type="button" ng-click='showModal()' >Add Link</button></span>
+                     
+                    <div></div>
+                    
+                </div>
+              </form>
+        
+                      <br/>         
+                    <div ng-show="linkAdded"><span class="badge alert-success">Link Added Successfully</span></div></div>
+
+    </div>
+      
+          <div class="container-full">
+                
+                    <div ng-hide="showHeader">
+                        <br/>
+        
+
+           
+              <div class="row">
+                    <form class="col-lg-12" name="resultsForm">
+                   
+                             <table class="" style="width:800px;margin:0 auto;">
+  <tr >
+      <td style="padding-right:10px"><a href ="/search"><h3>markIt</h3></a></td>
+       <td>
+            <div class="bar input-group"  style="width:700px;margin:0 auto;">
+                <input class="form-control input-lg"  title="Keywords..." placeholder="What's on your mind ?" type="text" ng-model="searchKeywords"  typeahead="tagsData.title for tagsData in tagsData | filter:{title:$viewValue} | limitTo:5" typeahead-focus-first="false" typeahead-template-url="customTemplate.html" required>
+      <span class="input-group-btn" style="padding:0px 10px;"> <button class="btn btn-lg btn-primary" ng-click="getResults()" ng-disabled="resultsForm.$invalid" type="submit">Search</button></span>
+                 
+             
+                <span class="input-group-btn"> <button class="btn btn-lg btn-danger" type="button" ng-click='showModal()'>Add Link</button></span>
+               
+                <div></div>
+                 
+           </div></td>
+      
+       <td> 
+        </td>
+  </tr>
+         
+</table>
+                   
+ 
+                  
+                
+               
+            <br/>
+                  
+                       
+                  
+                   </form>
+                  </div>
+                  </div></div>
+
+              
+              
+           
+            
+                <div style="height:50px" ng-hide="showHeader"></div>
+             
+             
+<div class="input-group" style="width:600px;text-align:center;margin:0 auto;">
+
+	<div  ng-show="showrecommendedResult">
+		<div class="url" style="border-bottom: 1px solid #DDD; text-align:left;">Results in {{(endTime - startTime)/1000}}s
+            <div  ng-show='updateFlag'><span class="badge alert-success">Updated</span></div><div class="pull-right"><i>Recommended Links</i></div></div>
+    
+		<div class="lead" ng-model="result" ng-repeat="result in recommendedsearchResults  | orderBy : orderBy : ['-rank','-count','-click'] ">
+            <table class="table-hover">
+            <tr class="active">
+                <td >
+                    
+                    <div ng-show={{result.link.includes('cawiki')}}>   <img class="media-object" style="align:right" ng-src="{{result.link.includes('cawiki')&& 'http://10.149.68.127:8082/html/images/cawiki.png'}}" height="40px" width="60px"/></div>
+                    
+                <img class="media-object" style="align:right" ng-src="{{result.link.includes('salesforce')&& 'http://10.149.68.127:8082/html/images/salesforce.png'}}" height="40px" width="60px" ng-show="{{result.link.includes('salesforce')}}"/>
+                    
+                <img class="media-object" style="align:right" ng-src="{{result.link.includes('cscrjts001')&& 'http://10.149.68.127:8082/html/images/rtc.png'}}" height="40px" width="60px" ng-show="{{result.link.includes('cscrjts001')}}"/>
+                    
+                <img class="media-object" style="align:right" ng-src="{{result.link.includes('star')&& 'http://10.149.68.127:8082/html/images/star.png'}}" height="40px" width="60px" ng-show="{{result.link.includes('star')}}"/>
+                    
+                <img class="media-object" style="align:right" ng-src="{{result.link.includes('km')&& 'http://10.149.68.127:8082/html/images/oneca.png'}}" height="40px" width="60px" ng-show="{{result.link.includes('km')}}"/>
+                    
+                 <img class="media-object" style="align:right" ng-src="http://10.149.68.127:8082/html/images/default.png" height="40px" width="60px" ng-hide="{{result.link.includes('salesforce') || result.link.includes('star') || result.link.includes('km') || result.link.includes('cawiki') || result.link.includes('cscrjts001') || ! result.link.includes('ca') }}"/>
+                    
+                     <img class="media-object" style="align:right" ng-src="http://10.149.68.127:8082/html/images/blank.png" height="40px" width="60px" ng-hide="{{result.link.includes('salesforce') || result.link.includes('star') || result.link.includes('km') || result.link.includes('cawiki') || result.link.includes('cscrjts001') ||  result.link.includes('ca') }}"/>
+                    
+                </td>
+                
+                <td>
+                    <ul>
+		<li>
+           
+            <div class="url" style="text-align:left"><strong><a href="{{result.link}}" ng-click="addClick(result)" target="_blank">{{result.title}}</strong></a></div>
+			<div class="url" style="text-align:left">{{result.link}}
+                <button type="button" class="btn btn-default btn-sm pull-right"  confirmed-click="removeEntry(result)" ng-confirm-click="Are you sure you want to delete this.">
+                    <span class="glyphicon glyphicon-remove"></span></button>
+                    <button type="button" class="btn btn-default btn-sm pull-right" ng-click="updateModal(result)">
+                        <span class="glyphicon glyphicon-pencil"></span></button>
+                        <button type="button" class="btn btn-default btn-sm pull-right" ng-click="thumbsUp(result)">
+                            <span class="glyphicon glyphicon-thumbs-up"></span> </button>
+                        
+                        </div>
+                <div class="count">Searched: <span class="badge">{{result.count || 0}}</span>  times | Clicked: <span class="badge">{{result.click || 0}}  </span> times | Supported Browers: <img ng-src="http://10.149.68.127:8082/html/images/ie-favicon.gif"/> <img height="17px" width="17px" ng-src="http://10.149.68.127:8082/html/images/chrome-favicon.gif" ng-hide="{{result.link.includes('learn') || result.link.includes('portalpe1') || result.link.includes('srm') || result.link.includes('succesfactors') || result.link.includes('mrm') }}"/>               </div>
+                    </li>
+                </ul></td>
+                </tr>
+            </table>
+        </div>
+	
+
+	</div>
+
+    <div  ng-show="showrelatedResult">
+        <div ng-hide="showrecommendedResult" class="url" style="border-bottom: 1px solid #DDD; text-align:left;">Results in {{(endTime - startTime)/1000}}s
+            <div  ng-show='updateFlag'><span class="badge alert-success">Updated</span></div><div class="pull-right"><i>Related Links</i></div></div>
+        
+        <div ng-show="showrecommendedResult" class="url" style="border-bottom: 1px solid #DDD; text-align:right;"><i>Related Links</i ><!--  -->
+		</div>
+       </div>
+
+		<div class="lead"  ng-model="result" ng-repeat="result in relatedsearchResults  |  orderBy : ['-rank','-count','-click'] ">
+            <table  class="table-hover">
+            <tr>
+                <td >
+                    
+                    <div ng-show={{result.link.includes('cawiki')}}>   <img class="media-object" style="align:right" ng-src="{{result.link.includes('cawiki')&& 'http://10.149.68.127:8082/html/images/cawiki.png'}}" height="40px" width="60px"/></div>
+                        
+                <img class="media-object" style="align:right" ng-src="{{result.link.includes('salesforce')&& 'http://10.149.68.127:8082/html/images/salesforce.png'}}" height="40px" width="60px" ng-show="{{result.link.includes('salesforce')}}"/>
+                    
+                <img class="media-object" style="align:right" ng-src="{{result.link.includes('cscrjts001')&& 'http://10.149.68.127:8082/html/images/rtc.png'}}" height="40px" width="60px" ng-show="{{result.link.includes('cscrjts001')}}"/>
+                    
+                <img class="media-object" style="align:right" ng-src="{{result.link.includes('star')&& 'http://10.149.68.127:8082/html/images/star.png'}}" height="40px" width="60px" ng-show="{{result.link.includes('star')}}"/>
+                    
+                <img class="media-object" style="align:right" ng-src="{{result.link.includes('km')&& 'http://10.149.68.127:8082/html/images/oneca.png'}}" height="40px" width="60px" ng-show="{{result.link.includes('km')}}"/>
+                    
+                 <img class="media-object" style="align:right" ng-src="http://10.149.68.127:8082/html/images/default.png" height="40px" width="60px" ng-hide="{{result.link.includes('salesforce') || result.link.includes('star') || result.link.includes('km') || result.link.includes('cawiki') || result.link.includes('cscrjts001') || ! result.link.includes('ca') }}"/>
+                    
+                     <img class="media-object" style="align:right" ng-src="http://10.149.68.127:8082/html/images/blank.png" height="40px" width="60px" ng-hide="{{result.link.includes('salesforce') || result.link.includes('star') || result.link.includes('km') || result.link.includes('cawiki') || result.link.includes('cscrjts001') ||  result.link.includes('ca') }}"/>
+                    
+                </td>
+                
+                <td>
+                    <ul>
+		<li>
+           
+            <div class="url" style="text-align:left"><strong><a href="{{result.link}}" ng-click="addClick(result)" target="_blank">{{result.title}}</strong></a></div>
+			<div class="url" style="text-align:left">{{result.link}}
+                <button type="button" class="btn btn-default btn-sm pull-right"  confirmed-click="removeEntry(result)" ng-confirm-click="Are you sure you want to delete this.">
+                    <span class="glyphicon glyphicon-remove"></span></button>
+                    <button type="button" class="btn btn-default btn-sm pull-right" ng-click="updateModal(result)">
+                        <span class="glyphicon glyphicon-pencil"></span></button>
+                        <button type="button" class="btn btn-default btn-sm pull-right" ng-click="thumbsUp(result)">
+                            <span class="glyphicon glyphicon-thumbs-up"></span> </button>
+                        
+                        </div>
+                <div class="count"> Searched: <span class="badge">{{result.count || 0}}</span>  times | Clicked: <span class="badge">{{result.click || 0}} </span> times | Supported Browers: <img ng-src="http://10.149.68.127:8082/html/images/ie-favicon.gif"/>  <img height="17px" width="17px" ng-src="http://10.149.68.127:8082/html/images/chrome-favicon.gif" ng-hide="{{result.link.includes('learn') || result.link.includes('portalpe1') || result.link.includes('srm') || result.link.includes('succesfactors') || result.link.includes('mrm') }}"/>        </div>
+                    </li>
+                </ul></td>
+                </tr>
+            </table>
+        </div>
+	
+		
+	
+	<div ng-show="noResult">
+		<div class="">
+			<h4 style="text-align:left"><center><strong>Sorry.. No result found..</strong></center></h4><br/><hr/>
+			<h4 style="text-align:left">
+				Do you want to search on <br/><br/>
+               
+				&nbsp;&nbsp;&nbsp;<a href="https://www.google.co.in/search?q={{searchKeywords}}" target="_blank"><strong>Google</strong></a><br/><br/>
+			</h4>
+		</div>
+	</div>
+     <div id="updateModel" class="modal fade" tabindex="-1" role="dialog" ng-hide="selectedPage">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+                <form name="updateForm">
+				<div class="modal-body col-sm-12">
+					 <label for="link">Link</label>
+				 <input class="input form-control col-sm-11" type="text" ng-model="link" ng-value="link" name="link" required/>
+                       
+                  
+                </div>
+                    <div class="modal-body col-sm-12">
+                         <label for="title">Keywords</label>
+					<input class="input form-control col-sm-11" type="text" ng-model="title"  ng-value="title" name="title" required/>
+                          
+                              
+  
+					<br/>
+				</div>
+			
+				<div class="modal-footer">
+					<a class="btn btn-primary" data-dismiss="modal" href="javascript:void(0)" ng-click="updateEntry()" type="submit" ng-disabled="updateForm.$invalid">Update</a> 
+					<a class="btn btn-danger" data-dismiss="modal" href="javascript:void(0)">Cancel</a> 	
+				</div>
+                </form>
+			</div>
+			
+		</div>
+	</div>
+    
+</div>
+
+<div class="panel-footer" ng-hide="noResult">
+ <div class="col-lg-12">
+     <p><a href='/whatsNew'>What's New  <span class="glyphicon glyphicon-bullhorn"> </span></a> &nbsp; | <a href='/stats'>Stats 
+         <span class="glyphicon glyphicon-stats"></span> </a> &nbsp;|<a href="" ng-click="feedback()">&nbsp;Feedback <span class="glyphicon glyphicon-star-empty"></span></a></p></div>
+</div>
+
+
+
+<script src="js/hopscotch.min.js"></script>
+<script src="js/tour.js"></script>
+

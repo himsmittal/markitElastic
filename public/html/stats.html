@@ -1,0 +1,92 @@
+<div id="lostKeywordsAddModal" class="modal fade" tabindex="-1" role="dialog" ng-hide="selectedPage">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+                <form name="addForm" onsubmit="addLink()">
+				    <div class="modal-body col-sm-12">
+					   <input class="input form-control col-sm-11" type="text" ng-model="newLink"  name="link"  placeholder="Link" required/>
+                    </div>
+                    <div class="modal-body col-sm-12">
+                        <input class="input form-control col-sm-11" type="text" ng-model="newTitle" name="keywords" placeholder="Keywords" required/>
+        
+					   <br/>   
+                    </div>
+			
+				    <div class="modal-footer">
+					   <a class="btn btn-primary" data-dismiss="modal" href="javascript:void(0)" ng-click="addLostLink()" type="submit"   ng-disabled="addForm.$invalid">Add</a> 
+					   <a class="btn btn-danger" data-dismiss="modal" href="javascript:void(0)" ng-click="cancel()">Cancel</a> 	
+				    </div>
+                </form>
+			</div>
+			
+		</div>
+	</div>
+
+<div class="container-full">
+  <br/>
+            <div class="text-center">
+          
+       <h1> <a href="/search">markIt</a>    
+        <i class="glyphicon glyphicon-tags"></i></h1>
+            <div ng-controller='statsCtrl'>
+          <p >Cloud Based Search App v1.0 Beta 
+        <button type="button" class="btn btn-default btn-sm" ng-click="showStats()">
+          <span class="glyphicon glyphicon-stats"></span>
+                </button>
+            </p>
+            </div>
+          <br>
+              </div>
+                              
+          </div>    
+
+<br/>
+<br/>
+
+<div class="input-group" style="width:900px;margin:0 auto;" ng-init="showStats()" ng-controller='statsCtrl'>
+<div class="container-fluid">
+    <div class="row">
+  <div class="col-md-8">
+       <div  id="container1" draw-area-chart=""></div>
+      
+     </div>
+  <div class="col-md-4">
+   
+      <div  id="container" draw-pie-chart=""></div>
+      
+        </div>
+    </div>
+    <br/>
+        <div class="row">
+             <div class="col-md-8">
+      <h4>Celebrity Keywords...</h4>
+      <ul class="list-group col-md-8">
+  <li class="list-group-item"  ng-repeat="x in celebLinksResult">
+    <span class="badge">{{x.count}}</span>
+      <a href="/search?q={{x.title}}">{{ x.title}} </a>
+  </li>
+</ul>
+                 
+     </div>
+            <div class="col-md-4">  <h4>Lost Keywords...</h4>
+      <table class="table table-striped table-bordered">
+  <tr ng-repeat="x in results">
+      <td> <a href="/stats" ng-click="showLostKeywordsModal()">  {{ x.keywordsSearched[0] }}</a></td>
+  </tr>
+       
+</table>
+      <p>PS: You can add these keywords if you have the links</p>
+            </div>
+             <div class="col-md-4">
+     
+     </div>
+</div>
+   
+ <!--<div id="containerMap" draw-map=""></div>-->
+      
+        </div>
+ <br/>
+    </div>
+</div>
+
+
+
